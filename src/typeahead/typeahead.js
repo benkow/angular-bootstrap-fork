@@ -440,6 +440,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
     });
 
     element.bind('blur', function(evt) {
+
       if (isSelectOnBlur && scope.matches.length && scope.activeIdx !== -1 && !selected) {
         selected = true;
         scope.$apply(function() {
@@ -447,11 +448,16 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
             $$debounce(function() {
               scope.select(scope.activeIdx, evt);
             }, scope.debounceUpdate.blur);
-          } else {
+          }
+          else {
             scope.select(scope.activeIdx, evt);
           }
         });
       }
+      else if (!isSelectOnBlur && scope.matches.length && scope.activeIdx !== -1 && !selected) {
+        resetMatches();//close popup on blur (e.g. form-arrow click iPhone)
+      }
+
       if (!isEditable && modelCtrl.$error.editable) {
         modelCtrl.$setViewValue();
         scope.$apply(function() {
@@ -461,6 +467,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
         });
         element.val('');
       }
+
       hasFocus = false;
       selected = false;
     });
