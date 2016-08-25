@@ -407,13 +407,17 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
           scope.activeIdx = (scope.activeIdx > 0 ? scope.activeIdx : scope.matches.length) - 1;
           scope.$digest();
           target = popUpEl[0].querySelectorAll('.uib-typeahead-match')[scope.activeIdx];
-          target.parentNode.scrollTop = target.offsetTop;
+          if(angular.isDefined(target)){
+            target.parentNode.scrollTop = target.offsetTop;
+          }
           break;
         case 40: // down arrow
           scope.activeIdx = (scope.activeIdx + 1) % scope.matches.length;
           scope.$digest();
           target = popUpEl[0].querySelectorAll('.uib-typeahead-match')[scope.activeIdx];
-          target.parentNode.scrollTop = target.offsetTop;
+          if(angular.isDefined(target)){
+            target.parentNode.scrollTop = target.offsetTop;
+          }
           break;
         default:
           if (shouldSelect) {
@@ -441,6 +445,11 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
     element.bind('blur', function(evt) {
 
+      /*console.log("scope.matches.length", scope.matches.length);
+       console.log("isSelectOnBlur", isSelectOnBlur);
+       console.log("scope.activeIdx", scope.activeIdx);
+       console.log("selected", selected);*/
+
       if (isSelectOnBlur && scope.matches.length && scope.activeIdx !== -1 && !selected) {
         selected = true;
         scope.$apply(function() {
@@ -454,8 +463,9 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
           }
         });
       }
-      else if (!isSelectOnBlur && scope.matches.length && scope.activeIdx !== -1 && !selected) {
-        resetMatches();//close popup on blur (e.g. form-arrow click iPhone)
+      //reset popup (close) if focus is lost, e.g. due to form-arrow-click on iPhone
+      else if (!isSelectOnBlur && scope.matches.length && scope.activeIdx === -1) {
+        resetMatches();
       }
 
       if (!isEditable && modelCtrl.$error.editable) {
