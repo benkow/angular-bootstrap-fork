@@ -1,8 +1,8 @@
 {
   "author": "https://github.com/angular-ui/bootstrap/graphs/contributors",
-  "name": "angular-ui-bootstrap",
-  "version": "2.1.5",
-  "homepage": "http://angular-ui.github.io/bootstrap/",
+  "name": "angular-bootstrap-fork",
+  "version": "2.1.6",
+  "homepage": "https://github.com/benkow/angular-bootstrap-fork",
   "dependencies": {},
   "directories": {
     "lib": "src/"
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/angular-ui/bootstrap.git"
+    "url": "https://github.com/benkow/angular-bootstrap-fork.git"
   },
   "devDependencies": {
     "angular": "1.5.8",
